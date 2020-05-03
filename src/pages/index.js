@@ -23,8 +23,6 @@ const LinkButton = styled.div`
 
 const IndexPage = (props) => {
     const games = props.data.allGame.edges;
-    console.log(games)
-
    return (
   <Layout>
     <SEO title="Home" />
