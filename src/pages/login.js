@@ -1,9 +1,9 @@
 import React, {useState} from "react"
 import { navigate } from "gatsby"
 import {useAuth} from '../components/Firebase'
+import {Button, Input, Form} from '../components/common'
 
 import SEO from "../components/seo"
-import Layout from '../components/layout'
 
 const Login = () => {
   const [formValues, setFormValues] = useState({email: '', password: ''});
@@ -30,16 +30,16 @@ function handleInputChange(e){
 }
 
   return (
-    <Layout>
-      <SEO title="Login" />
-      <form onSubmit={handleSubmit}>
-        <input type="email" value={formValues.email} onChange={handleInputChange} name="email" />
-        <input type="password" value={formValues.password} onChange={handleInputChange} name="password" />
-        <button type="submit">
-          Login
-        </button>
-      </form>
-    </Layout>
+      <>
+        <SEO title="Login" />
+        <Form onSubmit={handleSubmit}>
+          <Input type="email" value={formValues.email} onChange={handleInputChange} name="email" />
+          <Input type="password" value={formValues.password} onChange={handleInputChange} name="password" />
+          <Button type="submit" block>
+            Login
+          </Button>
+        </Form>
+      </>
   )
 }
 

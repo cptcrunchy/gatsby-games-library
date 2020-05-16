@@ -1,7 +1,6 @@
 import React from "react"
 import { graphql, Link } from "gatsby"
 import styled from "styled-components"
-import Layout from "../components/layout"
 import SEO from "../components/seo"
 import GameItem from '../components/GameItem'
 
@@ -24,7 +23,7 @@ const LinkButton = styled.div`
 const IndexPage = (props) => {
     const games = props.data.allGame.edges;
    return (
-  <Layout>
+  <>
     <SEO title="Home" />
     {games.map( game => {
         return (
@@ -43,7 +42,7 @@ const IndexPage = (props) => {
     })}
 
     <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
+  </>
 )
    }
 

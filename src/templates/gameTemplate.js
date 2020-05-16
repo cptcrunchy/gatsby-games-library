@@ -1,5 +1,4 @@
 import React from 'react'
-import Layout from '../components/layout'
 import GameItem from '../components/GameItem'
 import { graphql } from 'gatsby'
 
@@ -8,7 +7,7 @@ const GameTemplate = (props) => {
     console.log(gameContent)
 
     return (
-        <Layout>
+        <>
             <GameItem
                 gameTitle={gameContent.title}
                 gameCover={gameContent.localImage.childImageSharp.fixed}
@@ -16,7 +15,7 @@ const GameTemplate = (props) => {
                 releaseDate={gameContent.releaseDate}
                 gameSummary={gameContent.gameSummary}
              />   
-        </Layout>
+        </>
     )
 
 }
