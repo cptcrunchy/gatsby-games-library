@@ -1,12 +1,13 @@
 import React, {useState} from "react"
 import { navigate } from "gatsby"
 import {useAuth} from '../components/Firebase'
-import {Button, Input, Form} from '../components/common'
+import {Button, Input, Form, ErrorMessage} from '../components/common'
 
 import SEO from "../components/seo"
 
 const Login = () => {
   const [formValues, setFormValues] = useState({email: '', password: ''});
+  const [errorMessage, setErrorMessage] = useState('')
   const {firebase} = useAuth();
 
   function handleSubmit(e){
@@ -17,12 +18,14 @@ const Login = () => {
         navigate("/")
     })
     .catch( error => {
+          setErrorMessage(error.message)
           console.log(error);
     });
 }
 
 function handleInputChange(e){
     e.persist();
+    setErrorMessage('')
     setFormValues( currentValues => ({
         ...currentValues,
         [e.target.name]: e.target.value
@@ -33,8 +36,13 @@ function handleInputChange(e){
       <>
         <SEO title="Login" />
         <Form onSubmit={handleSubmit}>
-          <Input type="email" value={formValues.email} onChange={handleInputChange} name="email" />
-          <Input type="password" value={formValues.password} onChange={handleInputChange} name="password" />
+          <Input required type="email" value={formValues.email} onChange={handleInputChange} name="email" />
+          <Input required type="password" value={formValues.password} onChange={handleInputChange} name="password" />
+          {!!errorMessage &&
+            <ErrorMessage>
+              {errorMessage}
+            </ErrorMessage>
+          }
           <Button type="submit" block>
             Login
           </Button>

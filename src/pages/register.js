@@ -1,12 +1,12 @@
 import React, {useState, useContext} from 'react'
-import {Button, Form, Input} from '../components/common'
+import {Button, Form, Input, ErrorMessage} from '../components/common'
 import {FirebaseContext} from '../components/Firebase'
 import { navigate } from 'gatsby'
 
 const Register = () => {
 
     const {firebase} = useContext(FirebaseContext)
-
+    const [errorMessage, setErrorMessage] = useState('')
     const [formValues, setFormValues] = useState({
         email: '',
         password: '',
@@ -15,6 +15,7 @@ const Register = () => {
 
     function handleInputChange(e){
         e.persist();
+        setErrorMessage('')
         setFormValues( currentValues => ({
             ...currentValues,
             [e.target.name]: e.target.value
@@ -29,17 +30,12 @@ const Register = () => {
                 password: formValues.password
             }).catch( error => {
                 // Handle Errors here.
-               var errorCode = error.code;
-               var errorMessage = error.message;
-               if (errorCode === 'auth/weak-password') {
-                 alert('The password is too weak.');
-               } else {
-                 alert(errorMessage);
-               }
-               console.log(error);
+                setErrorMessage(error.message)
              }).then(() => {
                 navigate("/login")
             })
+        } else {
+            setErrorMessage('The passwords entered do not match')
         }
     }
 
@@ -58,7 +54,7 @@ const Register = () => {
                 value={formValues.password}
                 name="password"
                 type="password"
-                minLength={3}
+                minLength={6}
                 required
                 placeholder="password" />
             <Input
@@ -66,9 +62,14 @@ const Register = () => {
                 value={formValues.confirmPassword}
                 name="confirmPassword"
                 type="password"
-                minLength={3}
+                minLength={6}
                 required
                 placeholder="confirm password" />
+            {!!errorMessage &&
+                <ErrorMessage>
+                    {errorMessage}
+                </ErrorMessage>
+            }
             <Button type="submit" block>Register</Button>
 
         </Form>
