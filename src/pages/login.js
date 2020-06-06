@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import { navigate } from "gatsby"
 import {useAuth} from '../components/Firebase'
-import {Button, Input, Form, ErrorMessage} from '../components/common'
+import {Button, Input, Form, FormLabel, ErrorMessage} from '../components/common'
 
 import SEO from "../components/seo"
 
@@ -36,7 +36,9 @@ function handleInputChange(e){
       <>
         <SEO title="Login" />
         <Form onSubmit={handleSubmit}>
+          <FormLabel>Email</FormLabel>
           <Input required type="email" value={formValues.email} onChange={handleInputChange} name="email" />
+          <FormLabel>Password</FormLabel>
           <Input required type="password" value={formValues.password} onChange={handleInputChange} name="password" />
           {!!errorMessage &&
             <ErrorMessage>

@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import {Button, Form, Input, ErrorMessage} from '../components/common'
+import {Button, Form, FormLabel, Input, ErrorMessage} from '../components/common'
 import {FirebaseContext} from '../components/Firebase'
 import { navigate } from 'gatsby'
 
@@ -8,6 +8,7 @@ const Register = () => {
     const {firebase} = useContext(FirebaseContext)
     const [errorMessage, setErrorMessage] = useState('')
     const [formValues, setFormValues] = useState({
+        username: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -26,6 +27,7 @@ const Register = () => {
         e.preventDefault();
         if(formValues.password === formValues.confirmPassword) {
             firebase.register({
+                username: formValues.username,
                 email: formValues.email,
                 password: formValues.password
             }).catch( error => {
@@ -42,6 +44,16 @@ const Register = () => {
 
     return(
         <Form onSubmit={handleSubmit}>
+            <FormLabel>Username</FormLabel>
+            <Input
+                onChange={handleInputChange}
+                value={formValues.username}
+                name="username"
+                type="text"
+                required
+                placeholder="username" />
+
+            <FormLabel>Email</FormLabel>
             <Input
                 onChange={handleInputChange}
                 value={formValues.email}
@@ -49,6 +61,7 @@ const Register = () => {
                 type="email"
                 required
                 placeholder="email" />
+            <FormLabel>Password</FormLabel>
             <Input
                 onChange={handleInputChange}
                 value={formValues.password}
@@ -57,6 +70,7 @@ const Register = () => {
                 minLength={6}
                 required
                 placeholder="password" />
+            <FormLabel>Confirm Password</FormLabel>
             <Input
                 onChange={handleInputChange}
                 value={formValues.confirmPassword}

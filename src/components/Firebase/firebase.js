@@ -12,12 +12,15 @@ class Firebase {
     }
   }
 
-  async getUserProfile({userId}) {
-    return this.db.collection('publicProfiles').where('userId', '==', userId).get()
+  getUserProfile({userId, onSnapshot}) {
+    return this.db.collection('publicProfiles').where('userId', '==', userId).onSnapshot(onSnapshot)
   }
 
-  async register({email, password}) {
-    return this.auth.createUserWithEmailAndPassword(email, password)
+  async register({email, password, username}) {
+    await this.auth.createUserWithEmailAndPassword(email, password)
+    const createProfileCallable = this.functions.httpsCallable('createPublicProfile')
+
+    return createProfileCallable({username})
   }
 
   async login({email, password}) {
